@@ -1,4 +1,5 @@
 require 'dm-validations'
+require 'pry'
 
 class User
   include DataMapper::Resource
@@ -7,11 +8,8 @@ class User
   property :username, String, length: 128
   property :password, BCryptHash
   property :confirm_password, BCryptHash
-  property :email, String
-  property :phone_number, Integer
-
-  # validates_format_of :email, as: :email_address
-  # validates_length_of :phone_number, equals: 10
+  property :email, String, :format => :email_address
+  property :phone_number, String
 
 
   def authenticate(attempted_password)
@@ -20,5 +18,10 @@ class User
     else
       false
     end
+  end
+
+  def check_input_fields(arrgs = {})
+    binding.pry
+
   end
 end
