@@ -10,16 +10,10 @@ Given(/^there is a dish named "([^"]*)" in our database$/) do |dish_name|
   Dish.create(name: dish_name)
 end
 
-Given(/^I click on the "([^"]*)" button$/) do |register|
-  expect(page).to have_selector :button, register
-end
-
 Given(/^I fill in "([^"]*)" with "([^"]*)"$/) do |input_field, value |
-  visit '/auth/create'
   fill_in(input_field, :with => value)
-  #expect(input_field).to eq value
 end
 
-Given(/^I click on "([^"]*)"$/) do |submit|
-  expect(page).to have_selector :button, submit
+Given(/^I click on "([^"]*)"$/) do |element|
+  click_link_or_button element
 end

@@ -59,6 +59,12 @@ class SlowFood < Sinatra::Base
     erb :create
   end
 
+  post '/auth/create' do
+    user = User.create(params[:user])
+    # flash[:success] = "Successfully created new user"
+    redirect '/'
+  end
+
   get '/auth/login' do
     erb :login
   end
