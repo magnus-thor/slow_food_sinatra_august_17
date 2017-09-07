@@ -6,7 +6,11 @@
 
 <h1>User authentication</h1>
 
+
 <p>
+
+  <button><a href="/auth/create">Register</a></button>
+
   <% if current_user %>
     Logged in as <%= current_user.username %>
     <a href="/auth/logout">Log Out</a></p>
