@@ -19,9 +19,4 @@ class User
       false
     end
   end
-
-  # def check_input_fields(arrgs = {})
-  #   binding.pry
-  #
-  # end
 end

@@ -21,3 +21,7 @@ end
 Then(/^I should see message "([^"]*)"$/) do |message|
   expect(page).to have_content message
 end
+
+Given(/^There is a user called Thomas in our database$/) do
+  User.create(username: "Thomas", password: "passw", confirm_password: "passw", email: "somewhere@some.com", phone_number: "1234556")
+end
