@@ -60,9 +60,20 @@ class SlowFood < Sinatra::Base
   end
 
   post '/auth/create' do
-      user = User.create(params[:user])
-      flash[:success] = "Successfully created new user"
-      redirect '/'
+      # binding.pry
+      if params[:user][:username] == "" or params[:user][:password] == "" or params[:user][:email] == "" or params[:user][:phone_number] == ""
+        flash[:error] = "Need to fill in all information"
+        redirect '/auth/create'
+      elsif params[:user][:password] != params[:user][:confirm_password]
+        flash[:error] = "Passwords must match"
+        redirect '/auth/create'
+      else
+        # binding.pry
+        user = User.create(params[:user])
+        flash[:success] = "Successfully created new user"
+        env['warden'].set_user(user)
+        redirect '/'
+      end
   end
 
   get '/auth/login' do

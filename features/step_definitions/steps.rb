@@ -17,3 +17,7 @@ end
 Given(/^I click on "([^"]*)"$/) do |element|
   click_link_or_button element
 end
+
+Then(/^I should see message "([^"]*)"$/) do |message|
+  expect(page).to have_content message
+end
