@@ -60,9 +60,9 @@ class SlowFood < Sinatra::Base
   end
 
   post '/auth/create' do
-      # binding.pry
       if_old_user = User.first(username: params[:user][:username])
-      # binding.pry
+      if_email_already_used = User.first(email: params[:user][:email])
+
       if params[:user].any? { |key, value| value == "" }
         flash[:error] = "Need to fill in all information"
         redirect '/auth/create'
@@ -72,6 +72,9 @@ class SlowFood < Sinatra::Base
       elsif !if_old_user.nil?
         flash[:error] = "That user already exists"
         redirect '/auth/create'
+      elsif !if_email_already_used.nil?
+        flash[:error] = "Email address already registered"
+        redirect '/auth/create'  
       else
         # binding.pry
         user = User.create(params[:user])
