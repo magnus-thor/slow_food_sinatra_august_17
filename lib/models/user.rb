@@ -9,7 +9,7 @@ class User
   property :password, BCryptHash
   property :confirm_password, BCryptHash
   property :email, String, :format => :email_address
-  property :phone_number, String
+  property :phone_number, Integer
 
 
   def authenticate(attempted_password)
@@ -20,8 +20,8 @@ class User
     end
   end
 
-  def check_input_fields(arrgs = {})
-    binding.pry
-
-  end
+  # def check_input_fields(arrgs = {})
+  #   binding.pry
+  #
+  # end
 end
