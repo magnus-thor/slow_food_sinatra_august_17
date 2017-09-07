@@ -20,6 +20,6 @@ Given(/^I fill in "([^"]*)" with "([^"]*)"$/) do |input_field, value |
   #expect(input_field).to eq value
 end
 
-Given(/^I click on "([^"]*)"$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+Given(/^I click on "([^"]*)"$/) do |submit|
+  expect(page).to have_selector :button, submit
 end
