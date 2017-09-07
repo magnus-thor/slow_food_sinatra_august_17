@@ -9,7 +9,7 @@ class User
   property :password, BCryptHash
   property :confirm_password, BCryptHash
   property :email, String, :format => :email_address
-  property :phone_number, Integer
+  property :phone_number, String
 
 
   def authenticate(attempted_password)
