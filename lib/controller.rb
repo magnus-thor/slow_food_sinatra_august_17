@@ -62,11 +62,11 @@ class SlowFood < Sinatra::Base
       elsif params[:user][:password] != params[:confirm_password]
         flash[:error] = "Passwords must match"
         redirect '/auth/create'
-      elsif !if_old_user.nil?
-        flash[:error] = "That user already exists"
-        redirect '/auth/create'
       elsif !if_email_already_used.nil?
         flash[:error] = "Email address already registered"
+        redirect '/auth/create'
+      elsif !if_old_user.nil?
+        flash[:error] = "That user already exists"
         redirect '/auth/create'
       else
         user = User.create(params[:user])
