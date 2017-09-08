@@ -5,18 +5,12 @@ require_relative 'helpers/data_mapper'
 require_relative 'helpers/warden'
 require 'pry'
 
-
-
-
-
-
 class SlowFood < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
   register Sinatra::Warden
   set :session_secret, "supersecret"
 
-  #binding.pry
   #Create a test User
   if User.count == 0
    @user = User.create(username: "admin")
@@ -51,7 +45,7 @@ class SlowFood < Sinatra::Base
   end
 
   get '/' do
-    @dishes = Dish.all
+    @dishes_by_category = Dish.all.group_by{|h| h[:category]}
     erb :index
   end
 
@@ -62,7 +56,6 @@ class SlowFood < Sinatra::Base
   post '/auth/create' do
       if_old_user = User.first(username: params[:user][:username])
       if_email_already_used = User.first(email: params[:user][:email])
-      # binding.pry
       if params[:user].any? { |key, value| value == "" }
         flash[:error] = "Need to fill in all information"
         redirect '/auth/create'

@@ -9,7 +9,7 @@ class User
   property :firstname, String, length: 128
   property :lastname, String, length: 128
   property :password, BCryptHash
-  property :email, String, :format => :email_address
+  property :email, String, format: :email_address
   property :phone_number, String
   property :address, String
 
