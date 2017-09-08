@@ -62,11 +62,11 @@ class SlowFood < Sinatra::Base
   post '/auth/create' do
       if_old_user = User.first(username: params[:user][:username])
       if_email_already_used = User.first(email: params[:user][:email])
-
+      # binding.pry
       if params[:user].any? { |key, value| value == "" }
         flash[:error] = "Need to fill in all information"
         redirect '/auth/create'
-      elsif params[:user][:password] != params[:user][:confirm_password]
+      elsif params[:user][:password] != params[:confirm_password]
         flash[:error] = "Passwords must match"
         redirect '/auth/create'
       elsif !if_old_user.nil?
