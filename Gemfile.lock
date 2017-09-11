@@ -146,22 +146,19 @@ DEPENDENCIES
   bcrypt-ruby (= 3.0.1)
   capybara
   cucumber
-  data_mapper
+  data_mapper (~> 1.2)
   database_cleaner
-  dm-postgres-adapter
+  dm-postgres-adapter (~> 1.2)
   dm-rspec
   dotenv
   launchy
   pg
-  pry
+  pry-byebug
   rspec
   shotgun (= 0.9.1)
   sinatra (= 1.3.4)
   sinatra-flash (= 0.3.0)
   sinatra_warden
 
-RUBY VERSION
-   ruby 2.2.3p173
-
 BUNDLED WITH
-   1.15.4
+   1.10.6

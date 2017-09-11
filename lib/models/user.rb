@@ -1,6 +1,3 @@
-require 'dm-validations'
-require 'pry'
-
 class User
   include DataMapper::Resource
   attr_accessor :password_confirmation
@@ -13,6 +10,8 @@ class User
   property :email, String, format: :email_address
   property :phone_number, String
   property :address, String
+
+  has n, :orders
 
   validates_presence_of :username, message: 'Please add username'
   validates_presence_of :email, message: 'Please add email address'

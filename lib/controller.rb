@@ -10,7 +10,6 @@ class SlowFood < Sinatra::Base
   register Sinatra::Flash
   register Sinatra::Warden
   set :session_secret, 'supersecret'
-
   #Create a test User
   if User.count == 0
     User.create!(username: 'admin', password: 'password', email: 'admin@admin.com', phone_number: '123456')
@@ -43,7 +42,10 @@ class SlowFood < Sinatra::Base
   end
 
   get '/' do
+    session[:order_id] ? @order = Order.get(session[:order_id]) : @order = nil
+    session[:order_id] ? @cost = Order.get(session[:order_id]).total : @cost = nil
     @dishes_by_category = Dish.all.group_by { |h| h[:category] }
+
     erb :index
   end
 
@@ -62,27 +64,6 @@ class SlowFood < Sinatra::Base
       flash[:error] = user.errors.full_messages.join(',')
     end
     redirect '/auth/create'
-
-    # if_old_user = User.first(username: params[:user][:username])
-    # if_email_already_used = User.first(email: params[:user][:email])
-    # if params[:user].any? { |key, value| value == "" }
-    #   flash[:error] = "Need to fill in all information"
-    #   redirect '/auth/create'
-    # elsif params[:user][:password] != params[:confirm_password]
-    #   flash[:error] = "Passwords must match"
-    #   redirect '/auth/create'
-    # elsif !if_email_already_used.nil?
-    #   flash[:error] = "Email address already registered"
-    #   redirect '/auth/create'
-    # elsif !if_old_user.nil?
-    #   flash[:error] = "That user already exists"
-    #   redirect '/auth/create'
-    # else
-    #   user = User.create(params[:user])
-    #   flash[:success] = "Successfully created new user"
-    #   env['warden'].set_user(user)
-    #   redirect '/'
-    # end
   end
 
   get '/auth/login' do
@@ -92,10 +73,13 @@ class SlowFood < Sinatra::Base
   post '/auth/login' do
     env['warden'].authenticate!
     flash[:success] = "Successfully logged in #{current_user.username}"
+    # binding.pry
     if session[:return_to].nil?
       redirect '/'
     else
-      redirect session[:return_to]
+      # binding.pry
+      path = request.post? ? '/' : session[:return_to]
+      redirect path
     end
   end
 
@@ -108,7 +92,6 @@ class SlowFood < Sinatra::Base
 
   post '/auth/unauthenticated' do
     session[:return_to] = env['warden.options'][:attempted_path] if session[:return_to].nil?
-
     # Set the error and use a fallback if the message is not defined
     flash[:error] = env['warden.options'][:message] || 'You must log in'
     redirect '/auth/login'
@@ -118,5 +101,47 @@ class SlowFood < Sinatra::Base
     env['warden'].authenticate!
 
     erb :protected
+  end
+
+  post '/order/add/:dish_id' do
+    env['warden'].authenticate!
+    dish = Dish.get(params[:dish_id])
+    if session[:order_id]
+      order = Order.get(session[:order_id])
+    else
+      order = Order.create(user_id: current_user.id)
+      session[:order_id] = order.id
+    end
+    order.add_item(dish, dish.price, params[:quantity].to_i)
+    flash[:success] = "#{dish.name} was added to your order"
+    redirect '/'
+  end
+
+  get '/order/remove/:dish_id' do
+    env['warden'].authenticate!
+    dish = Dish.get(params[:dish_id])
+    if session[:order_id]
+      order = Order.get(session[:order_id])
+      order.remove_item(dish)
+      flash[:success] = "#{dish.name} was removed from your order"
+    else
+      flash[:alert] = "You dont have any #{dish.name} in your order"
+      # order = Order.create(user: current_user)
+      # session[:order_id] = order.id
+    end
+    redirect '/'
+  end
+
+  get '/order/clear' do
+    env['warden'].authenticate!
+    dish = Dish.get(params[:dish_id])
+    if session[:order_id]
+      order = Order.get(session[:order_id])
+    else
+      flash[:alert] = "You dont have any #{dish.name} in your order"
+    end
+    order.cancel_order
+    flash[:success] = "Your order was canceled"
+    redirect '/'
   end
 end
