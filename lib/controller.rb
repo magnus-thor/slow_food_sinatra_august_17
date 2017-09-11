@@ -97,6 +97,16 @@ class SlowFood < Sinatra::Base
     redirect '/auth/login'
   end
 
+  get '/dishes/new' do
+    erb :'dishes/new'
+  end
+
+  post '/dishes' do
+    Dish.create(params[:dish])
+    flash[:success] = 'Successfully added a new dish'
+    redirect '/protected'
+  end
+
   get '/protected' do
     env['warden'].authenticate!
 
