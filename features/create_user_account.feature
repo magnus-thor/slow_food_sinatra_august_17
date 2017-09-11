@@ -3,7 +3,7 @@ Feature: user can create an account
   In order to be able to make an order
   I would like to create an account
 
-  Scenario: user can clik a button to create an account
+  Scenario: user can click a button to create an account
     Given I visit the site
     And I click on "Register"
     And I fill in "First name" with "Name"

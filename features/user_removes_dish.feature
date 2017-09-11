@@ -9,9 +9,7 @@ Background:
   And there is a dish named "Carbonara" in our database
   And its dish price is "120" in our database
   And I visit the site
-  #Then show me the page
   And There are "2" "Carbonara" in our order
-
 
 Scenario: User clicks remove a dish
   Given I click "Remove" "Carbonara"

@@ -6,7 +6,7 @@
 </div>
 <div id="menu" align="center">
   <h2>Our Menu</h2>
-  <% if @cost > 0 %>
+  <% if @cost && @cost > 0 %>
     <p>Total cost of order is: <%= @cost %></p>
   <% end %>
   <% if @dishes_by_category.any? %>
@@ -37,5 +37,3 @@
         <a href="<%= "/order/clear" %>">Cancel Order</a>
       </div>
     <% end %>
-</body>
-</html>

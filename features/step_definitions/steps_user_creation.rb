@@ -14,7 +14,7 @@ And(/^I fill in all the fields$/) do
   steps %q{
     And I fill in "First name" with "Name"
     And I fill in "Last name" with "Last name"
-    And I fill in "Username" with "Thomas"
+    And I fill in "Username" with "jack"
     And I fill in "Password" with "mypassword"
     And I fill in "Confirm Password" with "mypassword"
     And I fill in "E-mail" with "andreademoja@gmail.com"
