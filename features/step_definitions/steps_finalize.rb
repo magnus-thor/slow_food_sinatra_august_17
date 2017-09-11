@@ -10,6 +10,5 @@ dish = Dish.first(name: "Carbonara")
 user = User.first
 order = Order.create(user_id: user.id)
 order.add_item(dish, dish.price, item_count)
-binding.pry
   click_link_or_button element
 end

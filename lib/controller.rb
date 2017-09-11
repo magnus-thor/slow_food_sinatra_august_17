@@ -164,6 +164,7 @@ class SlowFood < Sinatra::Base
     @order.order_items.each do |item|
       @counts[item.dish.id] += 1
     end
+    binding.pry
     erb :finalize
   end
 end
