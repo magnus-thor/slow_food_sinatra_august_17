@@ -84,7 +84,7 @@ h5 {
 }
 
 a {
-  color: green;
+  color: white;
 }
 
 #menu {
@@ -113,4 +113,8 @@ footer {
 
 form .form-icons .input-group-label {
     background-color: green;
+}
+
+input .button {
+  background-color: green;
 }
