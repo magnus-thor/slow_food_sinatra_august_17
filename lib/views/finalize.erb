@@ -1,0 +1,23 @@
+<p>Total Cost: <%= @cost %></p>
+<% if @dishes_by_category.any? %>
+  <% @dishes_by_category.each do |key, category| %>
+    <h2> <%= key %> </h2>
+    <% category.each do |dish| %>
+      <% @order.order_items.dish.each do |x| %>
+        <% if x.id == dish.id %>
+          <div id="<%= "dish_#{dish.id}" %>">
+            <form action="<%= "/order/add/#{dish.id}" %>" method="post">
+              <h3> <%= dish.name %> </h3>
+              <p> <%= dish.description %> </p>
+              <p> Quantity: <%= @counts[dish.id] %> </p>
+              <a class="button extended custom" href="<%= "/order/remove/#{dish.id}" %>">Remove</a>
+            </form>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>There are no dishes in the system!</p>
+<% end %>
+<button type="button" name="button">Pay</button>
