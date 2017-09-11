@@ -45,7 +45,6 @@ class SlowFood < Sinatra::Base
     session[:order_id] ? @order = Order.get(session[:order_id]) : @order = nil
     session[:order_id] ? @cost = Order.get(session[:order_id]).total : @cost = nil
     @dishes_by_category = Dish.all.group_by { |h| h[:category] }
-
     erb :index
   end
 
