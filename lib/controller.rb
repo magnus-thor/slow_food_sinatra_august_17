@@ -45,7 +45,6 @@ class SlowFood < Sinatra::Base
     session[:order_id] ? @order = Order.get(session[:order_id]) : @order = nil
     session[:order_id] ? @cost = Order.get(session[:order_id]).total : @cost = nil
     @dishes_by_category = Dish.all.group_by { |h| h[:category] }
-
     erb :index
   end
 
@@ -73,11 +72,9 @@ class SlowFood < Sinatra::Base
   post '/auth/login' do
     env['warden'].authenticate!
     flash[:success] = "Successfully logged in #{current_user.username}"
-    # binding.pry
     if session[:return_to].nil?
       redirect '/'
     else
-      # binding.pry
       path = request.post? ? '/' : session[:return_to]
       redirect path
     end
@@ -136,8 +133,6 @@ class SlowFood < Sinatra::Base
       flash[:success] = "#{dish.name} was removed from your order"
     else
       flash[:alert] = "You dont have any #{dish.name} in your order"
-      # order = Order.create(user: current_user)
-      # session[:order_id] = order.id
     end
     redirect '/'
   end
@@ -161,9 +156,7 @@ class SlowFood < Sinatra::Base
     session[:order_id] ? @cost = Order.get(session[:order_id]).total : @cost = nil
     @dishes_by_category = Dish.all.group_by { |h| h[:category] }
     @counts = Hash.new 0
-    @order.order_items.each do |item|
-      @counts[item.dish.id] += 1
-    end
+    @order.order_items.each { |item| @counts[item.dish.id] += item.quantity } unless @order == nil
     binding.pry
     erb :finalize
   end

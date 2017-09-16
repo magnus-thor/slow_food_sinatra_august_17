@@ -22,7 +22,7 @@ Scenario: user sees the price of a dish
 
 Scenario: user sees the price of a dish
   Given there is a dish named "Carbonara" in our database
-  And its dish desription is "a delicous pasta dish with egg and bacon" in our database
+  And its dish description is "a delicous pasta dish with egg and bacon" in our database
   And I visit the site
   Then I should se a message saying "a delicous pasta dish with egg and bacon"
 
